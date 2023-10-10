@@ -6,6 +6,7 @@ const User = require('../models/User.js');
 const Place = require('../models/Place.js');
 const Booking = require('../models/Booking.js');
 const bcryptSalt = bcrypt.genSaltSync(10);
+const mongoose = require("mongoose");
 
 
 router.get('/test', (req,res) => {

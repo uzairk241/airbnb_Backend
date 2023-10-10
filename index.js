@@ -15,8 +15,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cookieParser());
-const frontendurl=process.env.frontendurl
-app.use(cors({origin:frontendurl,credentials:true}));
+app.use(cors());
 
 app.use("/api",router)
 
