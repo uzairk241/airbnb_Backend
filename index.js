@@ -3,15 +3,10 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
 const cloudinary = require("cloudinary")
-const helmet = require("helmet");
 const router = require('./Routes/Router');
 require('dotenv').config();
 const app = express();
 
-
-
-
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
