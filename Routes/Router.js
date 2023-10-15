@@ -51,8 +51,8 @@ router.get('/test', (req,res) => {
     }
   });
   
-  router.get('/profile', async (req, res) => {
-    const {token} = req.cookies;
+  router.post('/profile', async (req, res) => {
+    const {token} = req.body;
     if (token) {
     jwt.verify(token, process.env.jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
@@ -87,7 +87,7 @@ router.get('/test', (req,res) => {
     const {
       title,address,description,price,addedPhotos,
       perks,extraInfo,checkIn,checkOut,maxGuests,
-    } = req.body;
+    } = req.body.placeData;
   
       const placeDoc = await Place.create({
         owner:id,price,
@@ -97,12 +97,12 @@ router.get('/test', (req,res) => {
       res.status(200).json(placeDoc);
   });
   
-  router.get('/user-places', jwtverify,async(req,res) => {
+  router.post('/user-places', jwtverify,async(req,res) => {
       const id = req.user;
       res.status(200).json(await Place.find({owner:id}));
   });
   
-  router.get('/places/:id', jwtverify, async(req,res) => {
+  router.post('/places/:id', jwtverify, async(req,res) => {
     const {id} = req.params;
     res.status(200).json(await Place.findById(id));
   });
@@ -128,7 +128,7 @@ router.get('/test', (req,res) => {
     res.status(200).json(await Place.find());
   });
   
-  router.post('/bookings',jwtverify, async (req, res) => {
+  router.post('/bookplace',jwtverify, async (req, res) => {
     const id = req.user
     if(id){
       const {
@@ -136,7 +136,7 @@ router.get('/test', (req,res) => {
       } = req.body;
       Booking.create({
         place,checkIn,checkOut,numberOfGuests,name,phone,price,
-        user:userData.id,
+        user:id,
       }).then((doc) => {
         res.status(200).json(doc);
       }).catch((err) => {
@@ -146,7 +146,7 @@ router.get('/test', (req,res) => {
   
   
     
-    router.get('/bookings',jwtverify, async (req,res) => {
+    router.post('/allbookings',jwtverify, async (req,res) => {
       const id = req.user
     if(id){
       res.status(200).json(await Booking.find({user:id}).populate('place') );
