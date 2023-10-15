@@ -41,7 +41,7 @@ router.get('/test', (req,res) => {
           id:userDoc._id
         }, process.env.jwtSecret, (err,token) => {
           if (err) throw err;
-          res.status(200).cookie("token",token,{httpOnly:true}).json({userDoc});
+          res.status(200).json({userDoc,token});
         });
       } else {
         res.status(422).json('pass not ok');
